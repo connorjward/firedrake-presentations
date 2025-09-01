@@ -53,11 +53,16 @@
 
 \author{Connor Ward}
 
-\date{DD/09/2025}
+\date{16/09/2025}
 
 %----------------------------------------------------------------------------------------
-%	MACROS
+%	CUSTOM
 %----------------------------------------------------------------------------------------
+
+\usepackage{minted}
+
+\newcommand{\release}{\texttt{release}}
+\newcommand{\main}{\texttt{main}}
 
 \newcommand{\timeline}[2]{
 	\begin{center}
@@ -157,14 +162,55 @@
 
 % Dockerfiles...
 %
-% Describe breaking changes in main:
-% interpolate
-% abstract reduced functional
-% vector
-% constant domain
-% More...
 %
 % How to support both...
+\end{frame}
+
+\begin{frame}
+	\frametitle{Understanding Firedrake's release strategy}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Understanding Firedrake's release strategy}
+
+	\vfill
+
+	\begin{overprint}
+		\onslide<1>\centering\includegraphics[height=0.8\textheight]{release_main1}
+		\onslide<2>\centering\includegraphics[height=0.8\textheight]{release_main2}
+		\onslide<3>\centering\includegraphics[height=0.8\textheight]{release_main3}
+		\onslide<4>\centering\includegraphics[height=0.8\textheight]{release_main4}
+		\onslide<5>\centering\includegraphics[height=0.8\textheight]{release_main5}
+		\onslide<6>\centering\includegraphics[height=0.8\textheight]{release_main6}
+		\onslide<7>\centering\includegraphics[height=0.8\textheight]{release_main7}
+		\onslide<8>\centering\includegraphics[height=0.8\textheight]{release_main8}
+		\onslide<9>\centering\includegraphics[height=0.8\textheight]{release_main9}
+		\onslide<10>\centering\includegraphics[height=0.8\textheight]{release_main10}
+		\onslide<11>\centering\includegraphics[height=0.8\textheight]{release_main11}
+		\onslide<12>\centering\includegraphics[height=0.8\textheight]{release_main12}
+	\end{overprint}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Supporting \texttt{main} and/or \texttt{release}}
+
+	\pause
+
+	\begin{description}
+		\item[Strategy 1] Just pick one.
+		\pause
+		\item[Strategy 2] Maintain your own \release and \main branches.
+		\pause
+		\item[Strategy 3] Check the version.
+			\begin{minted}[autogobble]{python}
+if importlib.metadata.version("firedrake") > "2025.4":
+    # new API
+else:
+    # old API
+			\end{minted}
+	\end{description}
+
+	We have Docker images for \release (\texttt{firedrake-vanilla-default:dev-release}) and \main (\texttt{firedrake-vanilla-default:dev-main}) that you can use for your CI.
 \end{frame}
 
 \begin{frame}
@@ -176,7 +222,6 @@
 	% 2 minute PETSc!
 
 \end{frame}
-
 
 \begin{frame}
 	\frametitle{petsctools}
