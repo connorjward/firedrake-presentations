@@ -112,6 +112,10 @@
 \begin{frame}
 	\frametitle{Absorb PyOP2 and TSFC}
 	\timeline{2}{12/24}
+
+	\begin{itemize}
+		\item Easier cross-project merges
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -134,14 +138,36 @@
 	\frametitle{New Linux runners}
 	\timeline{4}{02/25}
 
-	% GPU
+	$2 \times \ \dots$
+
+	\begin{itemize}
+		\item 384GB RAM
+		\item NVIDIA A100 GPU
+		\item 4 runners
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Smoke tests}
 	\timeline{4}{02/25}
 
-	% Gusto
+	\begin{minted}{yaml}
+- name: Run Gusto smoke tests
+  # Only test Gusto in real mode
+  if: |
+    inputs.run_tests &&
+    (success() || steps.install.conclusion == 'success') &&
+    matrix.arch == 'default'
+  run: |
+    . venv/bin/activate
+    git clone --depth 1 https://github.com/firedrakeproject/gusto.git gusto-repo
+    pip install --verbose ./gusto-repo
+    python -m pytest -n 8 --verbose \
+      gusto-repo/integration-tests/balance/test_saturated_balance.py \
+      gusto-repo/integration-tests/equations/test_thermal_sw.py \
+      gusto-repo/integration-tests/transport/test_embedded_dg_advection.py
+    timeout-minutes: 10
+	\end{minted}
 
 \end{frame}
 
@@ -160,10 +186,13 @@
 	\frametitle{First Firedrake release}
 	\timeline{6}{04/25}
 
+	\begin{itemize}
+		\item 2025.4.0 released
+		\item It immediately broke
+		\item 2025.4.0.post0 released
+	\end{itemize}
+
 % Dockerfiles...
-%
-%
-% How to support both...
 \end{frame}
 
 \begin{frame}
@@ -192,14 +221,14 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Supporting \texttt{main} and/or \texttt{release}}
+	\frametitle{Supporting \main{} and/or \release{}}
 
 	\pause
 
 	\begin{description}
 		\item[Strategy 1] Just pick one.
 		\pause
-		\item[Strategy 2] Maintain your own \release and \main branches.
+		\item[Strategy 2] Maintain your own \release{} and \main{} branches.
 		\pause
 		\item[Strategy 3] Check the version.
 			\begin{minted}[autogobble]{python}
@@ -210,7 +239,9 @@ else:
 			\end{minted}
 	\end{description}
 
-	We have Docker images for \release (\texttt{firedrake-vanilla-default:dev-release}) and \main (\texttt{firedrake-vanilla-default:dev-main}) that you can use for your CI.
+	\pause
+
+	We have Docker images for \release{} (\texttt{firedrake-vanilla-default:dev-release}) and \main{} (\texttt{firedrake-vanilla-default:dev-main}) that you can use for your CI.
 \end{frame}
 
 \begin{frame}
