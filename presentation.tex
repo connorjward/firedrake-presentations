@@ -100,22 +100,24 @@
 \endgroup
 
 \begin{frame}
-	\frametitle{Postdoc starts}
+	\frametitle{Submit thesis/Begin postdoc}
 	\timeline{0}{10/24}
 \end{frame}
 
 \begin{frame}
 	\frametitle{New Mac runners}
+	\vfill
 	\timeline{1}{11/24}
+
+	% 4 of them
 \end{frame}
 
 \begin{frame}
 	\frametitle{Absorb PyOP2 and TSFC}
+	\vfill
 	\timeline{2}{12/24}
 
-	\begin{itemize}
-		\item Easier cross-project merges
-	\end{itemize}
+	% easier cross-project merges
 \end{frame}
 
 \begin{frame}
@@ -188,15 +190,18 @@
 
 	\begin{itemize}
 		\item 2025.4.0 released
+		\pause
 		\item It immediately broke
 		\item 2025.4.0.post0 released
 	\end{itemize}
-
-% Dockerfiles...
 \end{frame}
 
 \begin{frame}
 	\frametitle{Understanding Firedrake's release strategy}
+
+	% Kronk picture is funny (label 'release' and 'main')
+	% We want to provide a stable version for users
+	% But we also want to be able to break things
 \end{frame}
 
 \begin{frame}
@@ -257,6 +262,17 @@ else:
 \begin{frame}
 	\frametitle{petsctools}
 	\timeline{9}{07/25}
+
+	\begin{itemize}
+		\item Interacting with PETSc options: \texttt{OptionsManager}
+		\item Passing arbitrary data through PETSc to Python preconditioners: 'app context'
+		\item Initialisation utilities
+		\item Read PETSc configuration information
+	\end{itemize}
+
+	\centering
+
+	https://firedrakeproject.org/petsctools
 \end{frame}
 
 \begin{frame}
