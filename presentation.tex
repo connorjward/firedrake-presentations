@@ -187,7 +187,7 @@
 	\frametitle{New Linux runners}
 	\timeline{4}{02/25}
 
-	$2 \times \ \dots$
+	2 of:
 
 	\begin{itemize}
 		\item 384GB RAM
@@ -234,10 +234,68 @@
 
 \begin{frame}
 	\frametitle{mpi-pytest}
+	\vfill
 	\timeline{4}{02/25}
+\end{frame}
 
-	% use slides from rslondon presentation here
+\begin{frame}[t,fragile]{mpi-pytest}
+  \vspace{3em}
 
+  \begin{columns}
+    \begin{column}{.4\textwidth}
+      \begin{minted}[fontsize=\tiny,autogobble=true]{python}
+
+        def test_comm_world_size_equals_two():
+          assert COMM_WORLD.size == 2
+
+
+
+        def test_comm_world_size_equals_three():
+          assert COMM_WORLD.size == 3
+      \end{minted}
+    \end{column}
+    \begin{column}{.6\textwidth}
+      \begin{minted}[fontsize=\tiny,autogobble=true]{bash}
+        $ pytest test_comms.py  # won't work!
+
+        $ mpiexec -n 2 pytest test_comms.py  # won't work!
+      \end{minted}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t,fragile]{mpi-pytest}
+  \vspace{3em}
+
+  \begin{columns}
+    \begin{column}{.4\textwidth}
+      \begin{minted}[fontsize=\tiny,autogobble=true,highlightlines={1,6},highlightcolor=red!30]{python}
+        @pytest.mark.parallel(2)
+        def test_comm_world_size_equals_two():
+          assert COMM_WORLD.size == 2
+
+
+        @pytest.mark.parallel(3)
+        def test_comm_world_size_equals_three():
+          assert COMM_WORLD.size == 3
+      \end{minted}
+    \end{column}
+    \begin{column}{.6\textwidth}
+      \begin{minted}[fontsize=\tiny,autogobble=true]{bash}
+        $ pytest test_comms.py  # works, calls MPI under the hood
+
+        $ mpiexec -n 2 pytest test_comms.py -m parallel[2]  # works
+      \end{minted}
+    \end{column}
+  \end{columns}
+
+  \vspace{2em}
+
+  \pause
+
+  \begin{center}
+    \footnotesize{\texttt{pip install mpi-pytest}}
+  \end{center}
 \end{frame}
 
 \begin{frame}
@@ -332,18 +390,40 @@ else:
 	\frametitle{Use more system packages when building PETSc}
 	\timeline{6}{04/25}
 
-	% use Firedrake 25usa presentation for code snippet
+	From:
+
+	\begin{center}
+		\texttt{Depending on your platform, PETSc may take an hour or more to build!}
+	\end{center}	
+
+	To:
+
+	\begin{center}
+		\includegraphics[width=\textwidth]{fast_petsc}
+	\end{center}	
 
 	% JHC, DH
-
-	% 2 minute PETSc! (screenshot)
 \end{frame}
 
 \begin{frame}
 	\frametitle{petsctools}
+	\vfill
 	\timeline{9}{07/25}
+\end{frame}
 
-	% motivation from RSLondon
+\begin{frame}
+	\frametitle{Motivation}
+	\centering
+
+	\vspace{-2em}
+
+	\includegraphics[width=0.7\textwidth]{petsctools_pr}
+
+	\includegraphics[width=0.7\textwidth]{dead_comment}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Features}
 
 	\begin{itemize}
 		\item Interacting with PETSc options: \texttt{OptionsManager}
@@ -354,6 +434,8 @@ else:
 	\end{itemize}
 
 	\centering
+
+	pip install petsctools
 
 	https://firedrakeproject.org/petsctools
 \end{frame}
