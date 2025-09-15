@@ -100,7 +100,18 @@
 \endgroup
 
 \begin{frame}
+	\vfill
+	\begin{description}
+		\item[Firedrake '22] pyop3: A new domain-specific language for automating high-performance mesh-based simulation codes
+		\item[Firedrake '23] Latest developments in pyop3
+		\item[Firedrake '24] pyop3 is coming
+		\item[Firedrake USA '25] pyop3: a better code generator for mesh-based computations
+	\end{description}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Submit thesis/Begin postdoc}
+	\vfill
 	\timeline{0}{10/24}
 \end{frame}
 
@@ -113,7 +124,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Absorb PyOP2 and TSFC}
+	\frametitle{Absorb PyOP2 and TSFC in the Firedrake repository}
 	\vfill
 	\timeline{2}{12/24}
 
@@ -122,18 +133,54 @@
 
 \begin{frame}
 	\frametitle{pip install firedrake}
+	\vfill
 	\timeline{4}{02/25}
+\end{frame}
 
-% 	firedrake-run-split-tests
-%
-%
-%
-% OpenMPI not MPICH
-%
-%
-%
-% Dockerfiles
+\begin{frame}
+	\frametitle{How did we get here?}
 
+	\begin{itemize}
+		\item Firedrake needs a particular environment of compiled dependencies
+		\item Most users are unfamiliar with compiling complex software
+		\item HPC makes this even harder
+		\item Hence \texttt{firedrake-install}
+	\end{itemize}
+
+	\pause
+
+	But.
+
+	\pause
+
+	\begin{itemize}
+		\item \texttt{firedrake-install} was not a robust solution
+		\item Install failures were extremely hard to debug
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{What happened?}
+
+	\begin{itemize}
+		\item \texttt{pip install libsupermesh}
+		\item 3 stage install with \texttt{firedrake-configure} (intentionally stupid)
+		% this required a CI rewrite and threw up a lot of bugs
+		\item OpenMPI instead of MPICH (\texttt{firedrake-run-split-tests})
+		\item \texttt{firedrake-check}
+		\item \texttt{--netgen} etc into \texttt{pyproject.toml}
+		\item New Docker images
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Success stories}
+
+	\begin{itemize}
+		\item Much easier HPC install
+		\item PETSc \texttt{--download-firedrake}
+		\item NixOS package
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -153,6 +200,19 @@
 	\frametitle{Smoke tests}
 	\timeline{4}{02/25}
 
+	\begin{itemize}
+		\item Gusto
+		\item Thetis
+		\item G-ADOPT
+		\item Spyro
+	\end{itemize}
+
+	It really works!
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{How to add smoke tests for your library}
+
 	\begin{minted}{yaml}
 - name: Run Gusto smoke tests
   # Only test Gusto in real mode
@@ -170,34 +230,53 @@
       gusto-repo/integration-tests/transport/test_embedded_dg_advection.py
     timeout-minutes: 10
 	\end{minted}
-
 \end{frame}
 
 \begin{frame}
 	\frametitle{mpi-pytest}
 	\timeline{4}{02/25}
 
+	% use slides from rslondon presentation here
+
 \end{frame}
 
 \begin{frame}
-	\frametitle{Upstream PETSc}
+	\frametitle{Stop using our own fork of PETSc}
+	\vfill
 	\timeline{5}{03/25}
 \end{frame}
 
 \begin{frame}
 	\frametitle{First Firedrake release}
+	\vfill
 	\timeline{6}{04/25}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Why it happened}
 
 	\begin{itemize}
-		\item 2025.4.0 released
-		\pause
-		\item It immediately broke
-		\item 2025.4.0.post0 released
+		\item To provide more stability for downstream packages
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
+	\frametitle{How it happened}
+
+	\begin{enumerate}
+		\item Coordinated the release of UFL, pyadjoint, loopy
+		\item Made the first releases of FIAT and libsupermesh
+		\item 2025.4.0 released on PyPI
+		\pause
+		\item It immediately broke
+		\item 2025.4.0.post0 released
+	\end{enumerate}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Understanding Firedrake's release strategy}
+
+	\pause
 
 	% Kronk picture is funny (label 'release' and 'main')
 	% We want to provide a stable version for users
@@ -250,24 +329,28 @@ else:
 \end{frame}
 
 \begin{frame}
-	\frametitle{Use more system packages}
+	\frametitle{Use more system packages when building PETSc}
 	\timeline{6}{04/25}
+
+	% use Firedrake 25usa presentation for code snippet
 
 	% JHC, DH
 
-	% 2 minute PETSc!
-
+	% 2 minute PETSc! (screenshot)
 \end{frame}
 
 \begin{frame}
 	\frametitle{petsctools}
 	\timeline{9}{07/25}
 
+	% motivation from RSLondon
+
 	\begin{itemize}
 		\item Interacting with PETSc options: \texttt{OptionsManager}
 		\item Passing arbitrary data through PETSc to Python preconditioners: 'app context'
-		\item Initialisation utilities
-		\item Read PETSc configuration information
+		\item Handling citations
+		\item Help initialising PETSc
+		\item Reading PETSc configuration information
 	\end{itemize}
 
 	\centering
@@ -276,12 +359,12 @@ else:
 \end{frame}
 
 \begin{frame}
-	\frametitle{pyop3 BTW}
-\end{frame}
+	\frametitle{Final remarks}
 
-\begin{frame}
-	\frametitle{What now?}
-	\timeline{11}{09/25}
+	\begin{itemize}
+		\item A \emph{lot} has changed in Firedrake in the past year
+		\item Feedback welcome on what the community wants next (\texttt{pip install petsc}?, conda?, spack?)
+	\end{itemize}
 \end{frame}
 
 
