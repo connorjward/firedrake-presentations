@@ -132,7 +132,20 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{pip install firedrake}
+	\frametitle{New Linux runners}
+	\timeline{4}{02/25}
+
+	2 of:
+
+	\begin{itemize}
+		\item 384GB RAM
+		\item NVIDIA A100 GPU
+		\item 4 runners
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{pip install firedrake!}
 	\vfill
 	\timeline{4}{02/25}
 \end{frame}
@@ -164,6 +177,7 @@
 
 	\begin{itemize}
 		\item \texttt{pip install libsupermesh}
+		\item \texttt{pip install firedrake}
 		\item 3 stage install with \texttt{firedrake-configure} (intentionally stupid)
 		% this required a CI rewrite and threw up a lot of bugs
 		\item OpenMPI instead of MPICH (\texttt{firedrake-run-split-tests})
@@ -178,21 +192,7 @@
 
 	\begin{itemize}
 		\item Much easier HPC install
-		\item PETSc \texttt{--download-firedrake}
-		\item NixOS package
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{New Linux runners}
-	\timeline{4}{02/25}
-
-	2 of:
-
-	\begin{itemize}
-		\item 384GB RAM
-		\item NVIDIA A100 GPU
-		\item 4 runners
+		\item Other packaging systems (PETSc, NixOS)
 	\end{itemize}
 \end{frame}
 
@@ -206,6 +206,8 @@
 		\item G-ADOPT
 		\item Spyro
 	\end{itemize}
+
+	\pause
 
 	It really works!
 \end{frame}
@@ -243,7 +245,7 @@
 
   \begin{columns}
     \begin{column}{.4\textwidth}
-      \begin{minted}[fontsize=\tiny,autogobble=true]{python}
+      \begin{minted}[fontsize=\footnotesize,autogobble=true]{python}
 
         def test_comm_world_size_equals_two():
           assert COMM_WORLD.size == 2
@@ -255,7 +257,7 @@
       \end{minted}
     \end{column}
     \begin{column}{.6\textwidth}
-      \begin{minted}[fontsize=\tiny,autogobble=true]{bash}
+      \begin{minted}[fontsize=\footnotesize,autogobble=true]{bash}
         $ pytest test_comms.py  # won't work!
 
         $ mpiexec -n 2 pytest test_comms.py  # won't work!
@@ -269,7 +271,7 @@
 
   \begin{columns}
     \begin{column}{.4\textwidth}
-      \begin{minted}[fontsize=\tiny,autogobble=true,highlightlines={1,6},highlightcolor=red!30]{python}
+      \begin{minted}[fontsize=\footnotesize,autogobble=true,highlightlines={1,6},highlightcolor=red!30]{python}
         @pytest.mark.parallel(2)
         def test_comm_world_size_equals_two():
           assert COMM_WORLD.size == 2
@@ -281,7 +283,7 @@
       \end{minted}
     \end{column}
     \begin{column}{.6\textwidth}
-      \begin{minted}[fontsize=\tiny,autogobble=true]{bash}
+      \begin{minted}[fontsize=\footnotesize,autogobble=true]{bash}
         $ pytest test_comms.py  # works, calls MPI under the hood
 
         $ mpiexec -n 2 pytest test_comms.py -m parallel[2]  # works
@@ -305,7 +307,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{First Firedrake release}
+	\frametitle{First Firedrake release!}
 	\vfill
 	\timeline{6}{04/25}
 \end{frame}
@@ -336,7 +338,12 @@
 
 	\pause
 
-	% Kronk picture is funny (label 'release' and 'main')
+	\begin{overprint}
+		\onslide<2>\centering\includegraphics[height=0.8\textheight]{kronk}
+		\onslide<3>\centering\includegraphics[height=0.8\textheight]{kronk_release}
+		\onslide<4>\centering\includegraphics[height=0.8\textheight]{kronk_main}
+	\end{overprint}
+
 	% We want to provide a stable version for users
 	% But we also want to be able to break things
 \end{frame}
@@ -426,12 +433,14 @@ else:
 	\frametitle{Features}
 
 	\begin{itemize}
-		\item Interacting with PETSc options: \texttt{OptionsManager}
-		\item Passing arbitrary data through PETSc to Python preconditioners: 'app context'
+		\item Interacting with PETSc options: \texttt{OptionsManager} (think \texttt{solver\_parameters})
+		\item Passing arbitrary data through PETSc to Python preconditioners: `app context'
 		\item Handling citations
 		\item Help initialising PETSc
 		\item Reading PETSc configuration information
 	\end{itemize}
+
+	\pause
 
 	\centering
 
@@ -443,9 +452,13 @@ else:
 \begin{frame}
 	\frametitle{Final remarks}
 
+	\timeline{12}{Now}
+
 	\begin{itemize}
-		\item A \emph{lot} has changed in Firedrake in the past year
+		\item A \textbf{lot} has changed in Firedrake in the past year
+		\item 2025.10.0 is coming soon
 		\item Feedback welcome on what the community wants next (\texttt{pip install petsc}?, conda?, spack?)
+		\item I am very happy to help people who want to try any of this out for their own project
 	\end{itemize}
 \end{frame}
 
